@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Private Guest Questionnaire</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, #29200f 0%, #0c0b09 35%, #050505 75%);
+      color: #f5f1e8;
+      padding: 40px 18px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 38px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #c9a65b;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 8vw, 62px);
+      font-weight: 400;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .subtitle {
+      max-width: 520px;
+      margin: auto;
+      color: #aaa49a;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .card {
+      background: rgba(17, 16, 14, 0.92);
+      border: 1px solid rgba(201, 166, 91, 0.28);
+      border-radius: 18px;
+      padding: clamp(25px, 5vw, 48px);
+      box-shadow: 0 30px 100px rgba(0,0,0,.45);
+      backdrop-filter: blur(15px);
+    }
+
+    .section {
+      margin-bottom: 42px;
+    }
+
+    .section:last-of-type {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 25px;
+      color: #d6b66c;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: 400;
+    }
+
+    .section-title span {
+      width: 28px;
+      height: 1px;
+      background: #c9a65b;
+      display: inline-block;
+    }
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: .5px;
+      color: #d8d2c7;
+      margin-bottom: 9px;
+    }
+
+    .required {
+      color: #c9a65b;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #38342d;
+      border-radius: 9px;
+      background: #0d0c0a;
+      color: #f5f1e8;
+      padding: 14px 15px;
+      font-size: 14px;
+      outline: none;
+      transition: .25s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #68645d;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #c9a65b;
+      box-shadow: 0 0 0 3px rgba(201,166,91,.08);
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 115px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .choice-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .choice {
+      position: relative;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice label {
+      border: 1px solid #38342d;
+      background: #0d0c0a;
+      border-radius: 9px;
+      padding: 13px;
+      text-align: center;
+      cursor: pointer;
+      color: #aaa49a;
+      margin: 0;
+      transition: .25s ease;
+    }
+
+    .choice input:checked + label {
+      border-color: #c9a65b;
+      color: #e8cf91;
+      background: rgba(201,166,91,.08);
+    }
+
+    .notice {
+      border-left: 2px solid #c9a65b;
+      background: rgba(201,166,91,.05);
+      padding: 17px;
+      margin-bottom: 25px;
+      color: #aaa49a;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 14px;
+      color: #aaa49a;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .check input {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      accent-color: #c9a65b;
+      flex-shrink: 0;
+    }
+
+    .submit {
+      width: 100%;
+      border: 0;
+      border-radius: 9px;
+      padding: 17px;
+      background: linear-gradient(135deg, #d7b96e, #a9863e);
+      color: #0b0a08;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: .25s ease;
+      margin-top: 12px;
+    }
+
+    .submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(201,166,91,.2);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #57534c;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 25px 12px;
+      }
+
+      .card {
+        padding: 24px 18px;
+      }
+
+      .choice-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header class="header">
+      <div class="eyebrow">Private &amp; Discreet</div>
+
+      <h1>Guest Questionnaire</h1>
+
+      <p class="subtitle">
+        Please complete the questionnaire below so I can understand
+        your preferences and arrangements before confirming your request.
+      </p>
+    </header>
+
+    <form
+      class="card"
+      action="https://formsubmit.co/YOUR_EMAIL@example.com"
+      method="POST"
+    >
+
+      <!-- FormSubmit settings -->
+      <input type="hidden" name="_subject" value="New Private Guest Questionnaire">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+
+      <!-- PERSONAL DETAILS -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          <span></span>
+          Personal Details
+        </h2>
+
+        <div class="field">
+          <label>
+            Full name / preferred name <b class="required">*</b>
+          </label>
+
+          <input
+            type="text"
+            name="Name"
+            placeholder="How would you like me to address you?"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>
+            Age <b class="required">*</b>
+          </label>
+
+          <input
+            type="number"
+            name="Age"
+            min="18"
+            placeholder="18+"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>Nationality</label>
+
+          <input
+            type="text"
+            name="Nationality"
+            placeholder="Optional"
+          >
+        </div>
+
+        <div class="field">
+          <label>City of residence</label>
+
+          <input
+            type="text"
+            name="City"
+            placeholder="City"
+          >
+        </div>
+
+        <div class="field">
+          <label>
+            Preferred contact method <b class="required">*</b>
+          </label>
+
+          <select name="Contact Method" required>
+            <option value="">Select one</option>
+            <option>WhatsApp</option>
+            <option>Telegram</option>
+            <option>Phone</option>
+            <option>Email</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>
+            Contact number / username <b class="required">*</b>
+          </label>
+
+          <input
+            type="text"
+            name="Contact"
+            placeholder="Your contact details"
+            required
+          >
+        </div>
+
+      </section>
+
+
+      <!-- VISIT DETAILS -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          <span></span>
+          Visit Details
+        </h2>
+
+        <div class="field">
+          <label>
+            Preferred date <b class="required">*</b>
+          </label>
+
+          <input
+            type="date"
+            name="Preferred Date"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>
+            Preferred time <b class="required">*</b>
+          </label>
+
+          <input
+            type="time"
+            name="Preferred Time"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>
+            Requested duration
+          </label>
+
+          <select name="Duration">
+            <option value="">Select duration</option>
+            <option>1 hour</option>
+            <option>2 hours</option>
+            <option>3 hours</option>
+            <option>4 hours</option>
+            <option>Half day</option>
+            <option>Full day</option>
+            <option>Other / discuss privately</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>
+            Preferred location / area
+          </label>
+
+          <input
+            type="text"
+            name="Location"
+            placeholder="Area or preferred location"
+          >
+        </div>
+
+        <div class="field">
+          <label>
+            Hotel or residence name, if applicable
+          </label>
+
+          <input
+            type="text"
+            name="Hotel"
+            placeholder="Optional"
+          >
+        </div>
+
+      </section>
+
+
+      <!-- PREFERENCES -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          <span></span>
+          Preferences
+        </h2>
+
+        <div class="field">
+
+          <label>
+            Is this your first private meeting with a trans woman?
+          </label>
+
+          <div class="choice-group">
+
+            <div class="choice">
+              <input
+                type="radio"
+                id="first-yes"
+                name="First Meeting"
+                value="Yes"
+              >
+
+              <label for="first-yes">Yes</label>
+            </div>
+
+            <div class="choice">
+              <input
+                type="radio"
+                id="first-no"
+                name="First Meeting"
+                value="No"
+              >
+
+              <label for="first-no">No</label>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            What are you looking for from your private experience?
+          </label>
+
+          <textarea
+            name="Experience"
+            placeholder="Tell me a little about what you're looking for..."
+          ></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Do you have any preferences I should be aware of?
+          </label>
+
+          <textarea
+            name="Preferences"
+            placeholder="Optional"
+          ></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Is there anything that would make your experience more comfortable?
+          </label>
+
+          <textarea
+            name="Comfort"
+            placeholder="Optional"
+          ></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Special requests or arrangements
+          </label>
+
+          <textarea
+            name="Special Requests"
+            placeholder="Optional"
+          ></textarea>
+
+        </div>
+
+      </section>
+
+
+      <!-- ABOUT -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          <span></span>
+          About Your Visit
+        </h2>
+
+        <div class="field">
+
+          <label>
+            How did you discover my profile?
+          </label>
+
+          <select name="How Found">
+            <option value="">Select one</option>
+            <option>MassageRepublic</option>
+            <option>Instagram</option>
+            <option>Google</option>
+            <option>Referral</option>
+            <option>Previous contact</option>
+            <option>Other</option>
+          </select>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Have we met before?
+          </label>
+
+          <div class="choice-group">
+
+            <div class="choice">
+              <input
+                type="radio"
+                id="met-yes"
+                name="Met Before"
+                value="Yes"
+              >
+
+              <label for="met-yes">Yes</label>
+            </div>
+
+            <div class="choice">
+              <input
+                type="radio"
+                id="met-no"
+                name="Met Before"
+                value="No"
+              >
+
+              <label for="met-no">No</label>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Anything else you'd like me to know?
+          </label>
+
+          <textarea
+            name="Additional Information"
+            placeholder="Optional"
+          ></textarea>
+
+        </div>
+
+      </section>
+
+
+      <!-- CONFIRMATION -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          <span></span>
+          Private Confirmation
+        </h2>
+
+        <div class="notice">
+          Your information is intended only for arranging and communicating
+          about your request. Please do not submit sensitive financial,
+          identification, or password information through this form.
+        </div>
+
+        <label class="check">
+          <input
+            type="checkbox"
+            name="18+ Confirmation"
+            value="Confirmed"
+            required
+          >
+
+          <span>
+            I confirm that I am 18 years of age or older.
+          </span>
+        </label>
+
+        <label class="check">
+          <input
+            type="checkbox"
+            name="Information Accuracy"
+            value="Confirmed"
+            required
+          >
+
+          <span>
+            I confirm that the information I provided is accurate.
+          </span>
+        </label>
+
+        <label class="check">
+          <input
+            type="checkbox"
+            name="Request Understanding"
+            value="Understood"
+            required
+          >
+
+          <span>
+            I understand that submitting this questionnaire is a request
+            and does not automatically confirm an appointment.
+          </span>
+        </label>
+
+      </section>
+
+
+      <button class="submit" type="submit">
+        Submit Private Request
+      </button>
+
+    </form>
+
+    <div class="footer">
+      Private · Discreet · By Request
+    </div>
+
+  </main>
+
+</body>
+</html>
+GitHub
+└── your-website
+    ├── index.html       ← client questionnaire
+    ├── admin.html       ← your private admin page
+    ├── admin.js         ← admin functionality
+    └── style.css        ← design
